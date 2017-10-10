@@ -1,0 +1,12 @@
+git-client:2.5.0
+greenballs:1.15
+credentials:2.1.16
+ssh-credentials:1.13
+scm-api:2.2.2
+mailer:1.20
+junit:1.21
+matrix-project:1.12
+git:2.4.1
+structs:1.9
+script-security:1.13
+display-url-api:1.0
