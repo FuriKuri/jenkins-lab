@@ -40,11 +40,8 @@ RUN echo "jenkins ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
 USER jenkins
 
-COPY jenkins/jobs /var/jenkins_home/jobs
-#COPY --chown=jenkins:jenkins jenkins/jobs /var/jenkins_home/jobs
+COPY --chown=jenkins:jenkins jenkins/jobs /var/jenkins_home/jobs
 
 COPY executors.groovy /usr/share/jenkins/ref/init.groovy.d/executors.groovy
 COPY plugins.txt /usr/share/jenkins/plugins.txt
 RUN /usr/local/bin/plugins.sh /usr/share/jenkins/plugins.txt
-
-RUN sudo chown -R jenkins:jenkins /var/jenkins_home
