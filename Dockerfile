@@ -1,4 +1,4 @@
-FROM jenkins/jenkins
+FROM jenkins/jenkins:2.140
 
 USER root
 
@@ -6,14 +6,6 @@ RUN mkdir /var/jenkins_home/jobs && mkdir /var/jenkins_home/.ssh
 
 #ADD ssh/* /var/jenkins_home/.ssh/
 #RUN chmod 600 /var/jenkins_home/.ssh/id_rsa
-
-RUN cd /usr/bin && \
-	wget https://releases.rancher.com/cli/v0.6.4/rancher-linux-amd64-v0.6.4.tar.gz && \
-	tar xvf rancher-linux-amd64-v0.6.4.tar.gz && \
-	rm rancher-linux-amd64-v0.6.4.tar.gz && \
-	find . -name 'rancher' | xargs cp -t /usr/bin && \
-	chmod +x /usr/bin/rancher && \
-	rm -R rancher-*
 
 RUN apt-get update && \
     apt-get install -y \
@@ -41,7 +33,8 @@ RUN echo "jenkins ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 USER jenkins
 
 COPY --chown=jenkins:jenkins jenkins/jobs /var/jenkins_home/jobs
-
+COPY jenkins/jobs /usr/share/jenkins/jobs
 COPY executors.groovy /usr/share/jenkins/ref/init.groovy.d/executors.groovy
 COPY plugins.txt /usr/share/jenkins/plugins.txt
+COPY init.sh /usr/share/jenkins
 RUN /usr/local/bin/plugins.sh /usr/share/jenkins/plugins.txt
